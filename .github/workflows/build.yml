@@ -1,0 +1,35 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Unzip project files
+      run: |
+        unzip -o "py java 4.0.zip"
+        find . -maxdepth 3 -name "main.py" -exec dirname {} \; | head -n 1 > target_dir.txt
+        TARGET=$(cat target_dir.txt)
+        if [ ! -z "$TARGET" ] && [ "$TARGET" != "." ]; then
+          cp -r $TARGET/* .
+        fi
+
+    - name: Build with Buildozer
+      uses: ArtemSydoryk/buildozer-action@v1.2.0
+      with:
+        command: buildozer android debug
+        subpath: '.'
+
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: python-app-apk
+        path: bin/*.apk
+        
