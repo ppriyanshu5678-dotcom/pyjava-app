@@ -23,7 +23,7 @@ jobs:
         fi
 
     - name: Build with Buildozer
-      uses: akshayaurora/buildozer-action@v1
+      uses: ArtemSBulgakov/buildozer-action@v1
       with:
         command: buildozer android debug
         subpath: '.'
