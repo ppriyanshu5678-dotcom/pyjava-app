@@ -36,11 +36,7 @@ jobs:
     - name: Unzip project files
       run: |
         unzip -o "py java 4.0.zip"
-        find . -maxdepth 3 -name "main.py" -exec dirname {} \; | head -n 1 > target_dir.txt
-        TARGET=$(cat target_dir.txt)
-        if [ ! -z "$TARGET" ] && [ "$TARGET" != "." ]; then
-          cp -r $TARGET/* .
-        fi
+        cp -r "py java 4.0"/* .
 
     - name: Ensure Buildozer Config Exists
       run: |
